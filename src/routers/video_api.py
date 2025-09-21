@@ -4,7 +4,7 @@ import numpy as np
 import tempfile
 import os
 import uuid
-from moviepy.editor import VideoFileClip
+import moviepy as mp
 from src.filters.image_filter import check_image
 from src.utils.logger import log_alert
 import asyncio
@@ -61,7 +61,7 @@ async def analyze_video_frames(video_path: str, sample_rate: int = 30):
         raise HTTPException(status_code=500, detail=f"Video analysis failed: {str(e)}")
 
 @router.post("/check_video")
-async def check_video_api(file: UploadFile = File(...), background_tasks: BackgroundTasks = None):
+async def check_video_api(file: UploadFile = File(...)):
     """
     Check uploaded video for inappropriate content
     """
@@ -86,7 +86,7 @@ async def check_video_api(file: UploadFile = File(...), background_tasks: Backgr
             buffer.write(content)
 
         # Get video info
-        clip = VideoFileClip(temp_name)
+        clip = mp.VideoFileClip(temp_name)
         duration = clip.duration
         fps = clip.fps
 
@@ -154,7 +154,9 @@ async def check_video_url_api(url: dict):
                 f.write(chunk)
 
         # Analyze video
-        result = await check_video_api(UploadFile(filename="url_video.mp4", file=open(temp_name, "rb")))
+        with open(temp_name, "rb") as video_file:
+            upload_file = UploadFile(filename="url_video.mp4", file=video_file)
+            result = await check_video_api(upload_file)
 
         return result
 

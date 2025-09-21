@@ -2,8 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from src.routers import text_api, image_api, parent_alerts, stats_api, websocket_router, url_api
-# from src.routers import video_api, audio_api  # Temporarily disabled due to dependency issues
+from src.routers import text_api, image_api, parent_alerts, stats_api, websocket_router, url_api, video_api, audio_api
 import os
 
 app = FastAPI(title="AI Child Protection – Online Safety (Upgraded)")
@@ -17,8 +16,8 @@ app.include_router(image_api.router, prefix="/api", tags=["Image"])
 app.include_router(parent_alerts.router, prefix="/api", tags=["Alerts"])
 app.include_router(stats_api.router, prefix="/api", tags=["Stats"])
 app.include_router(websocket_router.router, prefix="", tags=["WebSocket"])
-# app.include_router(video_api.router, prefix="/api", tags=["Video"])  # Temporarily disabled
-# app.include_router(audio_api.router, prefix="/api", tags=["Audio"])  # Temporarily disabled
+app.include_router(video_api.router, prefix="/api", tags=["Video"])
+app.include_router(audio_api.router, prefix="/api", tags=["Audio"])
 app.include_router(url_api.router, prefix="/api", tags=["URL"])
 
 @app.get("/", response_class=HTMLResponse)
