@@ -291,8 +291,6 @@ MIT License - see LICENSE file for details
 
 ---
 
-**🎉 Chúc bạn demo thành công! Ứng dụng đã sẵn sàng để trình bày trước ban giám khảo.**
-
 **🔗 Quick Links:**
 - Web Dashboard: http://127.0.0.1:8000
 - Mobile App: http://127.0.0.1:8000/mobile
